@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -78,9 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="img\4elovek.gif" />
-    <Content Include="img\sus.gif" />
+    <Content Include="img\amogus.gif" />
+    <Content Include="img\ekran.jpg" />
     <Content Include="img\utka.gif" />
-    <Content Include="img\zalip.gif" />
+    <Content Include="img\1u.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
