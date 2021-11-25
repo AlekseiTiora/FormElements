@@ -24,12 +24,11 @@ namespace FormElements
         CheckBox cb3;
         RadioButton rb1;
         RadioButton rb2;
-        RadioButton rb3;
-        RadioButton rb4;
+        TabControl tC;
         public Form1()
         {
-            this.Height = 400;//высота
-            this.Width = 800;//ширина
+            this.Height = 700;//высота
+            this.Width = 900;//ширина
             this.Text = "Vorm elementidega";//загловок формы
             this.BackColor = Color.CadetBlue;//цвет фона формы
             tree = new TreeView();
@@ -96,20 +95,13 @@ namespace FormElements
 
             rb1 = new RadioButton();
             rb2 = new RadioButton();
-            rb3 = new RadioButton();
-            rb4 = new RadioButton();
             rb1.Location = new Point(600, 50);
             rb2.Location = new Point(600, 70);
-            rb3.Location = new Point(600, 90);
-            rb4.Location = new Point(600, 110);
             rb1.Text = "C#";
             rb2.Text = "HTML";
-            rb3.Text = "JS";
-            rb4.Text = "PHP";
             rb1.Click += Rb1_Click;
-            rb2.Click += Rb2_Click;
-            rb3.Click += Rb3_Click;
-            rb4.Click += Rb4_Click;
+
+
 
 
 
@@ -119,25 +111,17 @@ namespace FormElements
             this.Controls.Add(tree);
         }
 
-        private void Rb4_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("hea valik!", ":)");
-        }
-
-        private void Rb3_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("hea valik!", ":)");
-        }
 
         private void Rb2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("hea valik!", ":)");
+            //MessageBox.Show("hea valik!", ":)");
         }
 
         private void Rb1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("hea valik!", ":)");
+            //MessageBox.Show("hea valik!", ":)");
         }
+
 
 
         int fn = 0;
@@ -242,35 +226,99 @@ namespace FormElements
             }
             else if (e.Node.Text == "Radiobutton")
             {
+                rb1 = new RadioButton();
+                rb1.Text = "Must teema";
+                rb1.Location = new Point(300, 150);
+                rb2 = new RadioButton();
+                rb2.Text = "Valge teema";
+                rb2.Location = new Point(300, 200);
                 this.Controls.Add(rb1);
                 this.Controls.Add(rb2);
-                this.Controls.Add(rb3);
-                this.Controls.Add(rb4);
+                rb1.CheckedChanged += new EventHandler(rb_Checked);
+                rb2.CheckedChanged += new EventHandler(rb_Checked);
+
             }
-            else if (e.Node.Text == "MessageBox");
+            else if (e.Node.Text == "MessageBox")
             {
                 MessageBox.Show("MessageBox", "Kõige lihtsam aken");
-                var answer = MessageBox.Show("Tahad InputBoxi näha?", "Aken koos nupudeha", MessageBoxButtons.YesNo);
-                if(answer == DialogResult.Yes)
+                var answer = MessageBox.Show("Tahad InputBoxi näha?", "Aken koos nupudega", MessageBoxButtons.YesNo);
+                if (answer == DialogResult.Yes)
                 {
                     string text = Interaction.InputBox("Sisesta siia mingi tekst", "InputBox", "Mingi tekst");
-                    if(MessageBox.Show("Kas tahad tekst saada Tekskastisse?","Teksti salvestamine", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    if (MessageBox.Show("Kas tahad tekst saada Tekskastisse?", "Teksti salvestamine", MessageBoxButtons.OKCancel) == DialogResult.OK)
                     {
                         lbl.Text = text;
                         Controls.Add(lbl);
                     }
-                    else
-                    {
-                        lbl.Text = "sa solvad mind!";
-                        Controls.Add(lbl);
-                    }
+
                 }
                 else
                 {
                     MessageBox.Show("sa solvad mind!");
                 }
-            }
 
+            }
+            else if (e.Node.Text == "TabControl")
+            {
+                tC = new TabControl();
+                tC.Location = new Point(200, 60);
+                tC.Size = new Size(300, 300);
+
+                TabPage tabP1 = new TabPage("Esimene");
+                WebBrowser wb = new WebBrowser();
+                wb.Url = new Uri("https://www.tthk.ee/");
+                tabP1.Controls.Add(wb);
+
+
+                TabPage tabP2 = new TabPage("Teine");
+                WebBrowser wb2 = new WebBrowser();
+                wb2.Url = new Uri("https://github.com/AlekseiTiora");
+                tabP2.Controls.Add(wb2);
+
+                TabPage tabP3 = new TabPage("Kolmas");
+                WebBrowser wb3 = new WebBrowser();
+                wb3.Url = new Uri("https://i.imgur.com/LllbFyY.gif");
+                tabP3.Controls.Add(wb3);
+
+                tC.Controls.Add(tabP1);
+                tC.Controls.Add(tabP2);
+                tC.Controls.Add(tabP3);
+                this.Controls.Add(tC);
+                tC.DoubleClick += TC_DoubleClick;
+                tabP3.DoubleClick += tabP3_DoubleClick;
+
+            }
         }
+
+        private void TC_DoubleClick(object sender, EventArgs e)
+        {
+            this.tC.TabPages.Remove(tC.SelectedTab);
+        }
+
+        private void tabP3_DoubleClick(object sender, EventArgs e)
+        {
+            string title = "tabP" + (tC.TabCount + 1).ToString();
+            TabPage tb = new TabPage(title);
+            tC.TabPages.Add(tb);
+        }
+
+
+        private void rb_Checked(object sender, EventArgs e)
+        {
+
+            if (rb1.Checked)
+            {
+                this.BackColor = Color.Black;
+                rb2.ForeColor = Color.White;
+                rb1.ForeColor = Color.White;
+            }
+            else if(rb2.Checked)
+            {
+                this.BackColor = Color.White;
+                rb2.ForeColor = Color.Black;
+                rb1.ForeColor = Color.Black;
+            }
+        }
+    
     }
 }
