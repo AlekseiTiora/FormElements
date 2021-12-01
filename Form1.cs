@@ -25,6 +25,9 @@ namespace FormElements
         RadioButton rb1;
         RadioButton rb2;
         TabControl tC;
+        ListBox lb;
+        DataGrid dg;
+        MainMenu menu;
         public Form1()
         {
             this.Height = 700;//высота
@@ -43,6 +46,9 @@ namespace FormElements
             tn.Nodes.Add(new TreeNode("PictureBox"));
             tn.Nodes.Add(new TreeNode("TabControl"));
             tn.Nodes.Add(new TreeNode("MessageBox"));
+            tn.Nodes.Add(new TreeNode("ListBox"));
+            tn.Nodes.Add(new TreeNode("DataGridView"));
+            tn.Nodes.Add(new TreeNode("MainMenu"));
             btn = new Button();
 
             //nupp
@@ -64,7 +70,7 @@ namespace FormElements
             //pictureBox
             pb = new PictureBox();
             pb.Size = new Size(100, 100);
-            pb.Location = new Point(500, 50);
+            pb.Location = new Point(450, 50);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
             pb.ImageLocation=("../../img/utka.gif");
             pb.DoubleClick += Pb_DoubleClick;
@@ -204,16 +210,16 @@ namespace FormElements
 
         private void Tree_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if(e.Node.Text=="Button")
+            if (e.Node.Text == "Button")
             {
                 this.Controls.Add(btn);
 
             }
-            else if(e.Node.Text == "Silt-label")
+            else if (e.Node.Text == "Silt-label")
             {
                 this.Controls.Add(lbl);
             }
-            else if(e.Node.Text == "PictureBox")
+            else if (e.Node.Text == "PictureBox")
             {
                 this.Controls.Add(pb);
             }
@@ -261,7 +267,7 @@ namespace FormElements
             else if (e.Node.Text == "TabControl")
             {
                 tC = new TabControl();
-                tC.Location = new Point(200, 60);
+                tC.Location = new Point(550, 100);
                 tC.Size = new Size(300, 300);
 
                 TabPage tabP1 = new TabPage("Esimene");
@@ -288,6 +294,83 @@ namespace FormElements
                 tabP3.DoubleClick += tabP3_DoubleClick;
 
             }
+            else if (e.Node.Text == "ListBox")
+            {
+                lb = new ListBox();
+                lb.Items.Add("Rohaline");
+                lb.Items.Add("Punane");
+                lb.Items.Add("Sinine");
+                lb.Items.Add("Hall");
+                lb.Items.Add("Kollane");
+                lb.Location = new Point(150, 400);
+                lb.SelectedIndexChanged += new EventHandler
+                    (ls_SelectedIndexChanged);
+                this.Controls.Add(lb);
+
+
+            }
+            else if (e.Node.Text == "DataGridView")
+            {
+                DataSet dg = new DataSet("XML fail. Menüü");
+                dg.ReadXml(@"..\..\img\test.xml");
+                DataGridView ds = new DataGridView();
+                ds.Width = 450;
+                ds.Height = 150;
+                ds.Location = new Point(150, 250);
+                ds.AutoGenerateColumns = true;
+                ds.DataSource = dg;
+                ds.DataMember = "food";
+
+                this.Controls.Add(ds);
+            }
+            else if (e.Node.Text == "MainMenu")
+            {
+                MainMenu menu = new MainMenu();
+                MenuItem menuFile = new MenuItem("File");
+                menuFile.MenuItems.Add("Exit", new EventHandler(menuFile_Exit_Select));
+                menuFile.MenuItems.Add("Browser", new EventHandler(menuFile_Browser_Select));
+                menuFile.MenuItems.Add("Hide", new EventHandler(menuFile_Hide_Select));
+                menu.MenuItems.Add(menuFile);
+                this.Menu = menu;
+            }
+        }
+
+        private void menuFile_Hide_Select(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void menuFile_Browser_Select(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/");
+
+        }
+
+        private void menuFile_Exit_Select(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ls_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(lb.SelectedIndex)
+            {
+                case 0:
+                lb.BackColor = Color.Green;
+                break;
+                case 1:
+                    lb.BackColor = Color.Red;
+                    break;
+                case 2:
+                    lb.BackColor = Color.Blue;
+                    break;
+                case 3:
+                    lb.BackColor = Color.Gray;
+                    break;
+                default:
+                    lb.BackColor = Color.Yellow;
+                    break;
+            }   
         }
 
         private void TC_DoubleClick(object sender, EventArgs e)
